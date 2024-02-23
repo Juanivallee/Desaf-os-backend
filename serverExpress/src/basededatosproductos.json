@@ -1,0 +1,37 @@
+[]	{
+		"id": 1,
+		"title": "Fideo",
+		"description": "Paquete de fideos 300gr Maroleo",
+		"price": "$1200",
+		"thumbnail": "htpps://fideosmaroleo.com",
+		"code": 1566324851,
+		"stock": 35
+	},
+	{
+		"id": 2,
+		"title": "Arroz",
+		"description": "Paquete de arroz 250gr luchetti",
+		"price": "$3000",
+		"thumbnail": "htpps://arrozluchetti250.com",
+		"code": 15674600589,
+		"stock": 20
+	},
+	{
+		"id": 3,
+		"title": "Galletitas",
+		"description": "Paquete de galletitas 75gr oreo",
+		"price": "$1200",
+		"thumbnail": "htpps://oreopaquete.com",
+		"code": 52100541892,
+		"stock": 22
+	},
+	{
+		"id": 4,
+		"title": "Leche",
+		"description": "caja de leche 2l",
+		"price": "$1000",
+		"thumbnail": "htpps://cajaleche.com",
+		"code": 42532824227427,
+		"stock": 12
+	}
+]

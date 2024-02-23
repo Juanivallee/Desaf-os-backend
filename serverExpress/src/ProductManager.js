@@ -1,4 +1,3 @@
-// desafio 01
 const fs = require('fs')
 const { stringify } = require('querystring')
 
@@ -7,9 +6,16 @@ class ProductManager{
 
     constructor(){
         this.products=[]
-        this.path = "./basededatosproductos.txt"
-        fs.writeFileSync(this.path, JSON.stringify(this.products, null, "\t"))
+        this.path = "./basededatosproductos.json"
+        if (!fs.existsSync(this.path)) {
+            fs.writeFile(this.path, JSON.stringify([], null, "\t"), (error) => {
+                if (error) {
+                    throw new Error(`Error al crear el archivo de base de datos: ${error.message}`);
+                }
+            });
+        }
     }
+
 
 
     addProduct(title, description, price, thumbnail, code, stock){
@@ -103,7 +109,28 @@ class ProductManager{
 
 }
 
-let um = new ProductManager()
+module.exports=ProductManager
+
+
+const funcion1 = ()=>{
+    let um = new ProductManager()
+    
+    um.addProduct("Fideo", "Paquete de fideos 300gr Maroleo", "$1200", "htpps://fideosmaroleo.com", 1566324851, 35)
+    
+    um.addProduct("Arroz", "Paquete de arroz 250gr luchetti", "$3000", "htpps://arrozluchetti250.com", 15674600589, 20)
+    
+    um.addProduct("Galletitas", "Paquete de galletitas 75gr oreo", "$1200", "htpps://oreopaquete.com", 52100541892, 22)
+    
+    um.addProduct("Leche", "caja de leche 2l", "$1000", "htpps://cajaleche.com", 42532824227427, 12)
+    
+    console.log(um.getProducts());
+}
+
+funcion1()
+
+
+
+// let um = new ProductManager()
 
 // um.addProduct("Fideo", "Paquete de fideos 300gr Maroleo", "$1200", "htpps://fideosmaroleo.com", 1566324851, 35)
 
@@ -113,13 +140,11 @@ let um = new ProductManager()
 
 // um.addProduct("Leche", "caja de leche 2l", "$1000", "htpps://cajaleche.com", 42532824227427, 12)
 
-// console.log(um.getProducts());
-
 // console.log(um.getProductById(3));
+
+// console.log(um.getProducts());
 
 // um.updateProduct(2, "price", "$1250" )
 
+
 // um.deleteProduct(3)
-
-
-
