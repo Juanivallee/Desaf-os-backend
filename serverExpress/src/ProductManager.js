@@ -8,7 +8,7 @@ class ProductManager{
         this.products=[]
         this.path = "./basededatosproductos.json"
         if (!fs.existsSync(this.path)) {
-            fs.writeFile(this.path, JSON.stringify([], null, "\t"), (error) => {
+            fs.writeFileSync(this.path, JSON.stringify([], null, "\t"), (error) => {
                 if (error) {
                     throw new Error(`Error al crear el archivo de base de datos: ${error.message}`);
                 }
