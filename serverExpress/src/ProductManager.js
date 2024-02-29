@@ -91,8 +91,9 @@ class ProductManager{
 
 
     deleteProduct(id){
-        let traerArreglo = JSON.parse(fs.readFileSync(this.path,{encoding:"utf-8"}))
-        
+        //let traerArreglo = JSON.parse(fs.readFileSync(this.path,{encoding:"utf-8"}))
+        let traerArreglo = this.getProducts()
+
         let productFindIndex = traerArreglo.findIndex(productFind => productFind.id === id)
 
         if (productFindIndex === -1) {
@@ -102,6 +103,11 @@ class ProductManager{
 
         traerArreglo.splice(productFindIndex, 1)
 
+        // Reajustar los IDs después de eliminar el producto
+        this.products.forEach((product, index) => {
+            product.id = index + 1;
+        });
+        
 
         fs.writeFileSync(this.path, JSON.stringify(traerArreglo, null, "\t"));
         console.log(`Producto con ID ${id} eliminado correctamente`);
@@ -112,23 +118,24 @@ class ProductManager{
 module.exports=ProductManager
 
 
-const funcion1 = ()=>{
-    let um = new ProductManager()
+// const funcion1 = ()=>{
+//     let um = new ProductManager()
     
-    um.addProduct("Fideo", "Paquete de fideos 300gr Maroleo", "$1200", "htpps://fideosmaroleo.com", 1566324851, 35)
+//     um.addProduct("Fideo", "Paquete de fideos 300gr Maroleo", "$1200", "htpps://fideosmaroleo.com", 1566324851, 35)
     
-    um.addProduct("Arroz", "Paquete de arroz 250gr luchetti", "$3000", "htpps://arrozluchetti250.com", 15674600589, 20)
+//     um.addProduct("Arroz", "Paquete de arroz 250gr luchetti", "$3000", "htpps://arrozluchetti250.com", 15674600589, 20)
     
-    um.addProduct("Galletitas", "Paquete de galletitas 75gr oreo", "$1200", "htpps://oreopaquete.com", 52100541892, 22)
+//     um.addProduct("Galletitas", "Paquete de galletitas 75gr oreo", "$1200", "htpps://oreopaquete.com", 52100541892, 22)
     
-    um.addProduct("Leche", "caja de leche 2l", "$1000", "htpps://cajaleche.com", 42532824227427, 12)
+//     um.addProduct("Leche", "caja de leche 2l", "$1000", "htpps://cajaleche.com", 42532824227427, 12)
     
-    console.log(um.getProducts());
-}
+//     console.log(um.getProducts());
+// }
 
-funcion1()
+// funcion1()
 
-
+// let um = new ProductManager()
+// um.deleteProduct(3)
 
 // let um = new ProductManager()
 
@@ -146,5 +153,3 @@ funcion1()
 
 // um.updateProduct(2, "price", "$1250" )
 
-
-// um.deleteProduct(3)

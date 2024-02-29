@@ -1,48 +1,34 @@
 const express = require("express")
+const productRouter=require("./Routers/productsRouter")
+const ProductManager=require('./ProductManager')
 
-const ProductManager=require('./ProductManager.js')
-
-const PORT = 3000
+const PORT = 8080
 
 const app = express()
 
-const um=new ProductManager()
+const um = new ProductManager(); 
+
+app.use(express.json()); 
+
+app.use("/api/products", productRouter)
 
 app.get("/", (req, res)=>{
     res.send("Server Básico con Exspres...!!!")
 })
 
+app.post("/api/products", (req, res)=>{
+    const { title, description, price, thumbnail, code, stock, status, category } = req.body;
 
-app.get("/products", (req, res)=>{
-    let productos = um.getProducts()
 
-    let {limit} = req.query
-    
-    let resultado = productos
-    if(limit && limit>0){
-        resultado = resultado.slice(0, limit)
+    if (!title || !description || !price || !thumbnail || !code || !stock || !status || !category) {
+        return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
 
-    res.json(resultado)
+        um.addProduct(title, description, price, thumbnail, code, stock, status, category);
+
+        res.status(201).json({ mensaje: "Producto agregado correctamente" });
 })
 
-
-
-app.get("/products/:pid", (req, res) => {
-    let productos = um.getProducts()
-
-    let {pid} = req.query
-
-    const productFind = productos.find(product => product.id == pid)
-
-    if (!productFind) {
-        console.log(`No se encontró ningún producto con el id ${pid}.`);
-        res.status(404).json({ error: `No se encontró ningún producto con el id ${pid}.` }); // Enviar una respuesta de error con estado 404
-        return;
-    }
-
-    res.json(productFind)
-})
 
 app.listen(PORT, ()=>{
     console.log(`Server online en puerto ${PORT}`);
