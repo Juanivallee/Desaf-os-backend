@@ -1,3 +1,4 @@
+const { log } = require('console');
 const fs = require('fs')
 const { stringify } = require('querystring')
 
@@ -6,7 +7,7 @@ class ProductManager{
 
     constructor(){
         this.products=[]
-        this.path = "./basededatosproductos.json"
+        this.path = "./base_de_datos/productos.json"
         if (!fs.existsSync(this.path)) {
             fs.writeFileSync(this.path, JSON.stringify([], null, "\t"), (error) => {
                 if (error) {
@@ -18,7 +19,18 @@ class ProductManager{
 
 
 
-    addProduct(title, description, price, thumbnail, code, stock){
+    addProduct(title, description, price, thumbnail, code, stock, category){
+
+        if (fs.existsSync(this.path)) {
+            const data = fs.readFileSync(this.path, { encoding: "utf-8" });
+            if (data) {
+                this.products = JSON.parse(data);
+            } else {
+                this.products = [];
+            }
+        } else {
+            this.products = [];
+    }
 
         let existe=this.products.find(product=>product.code===code)
         if(existe){
@@ -27,7 +39,7 @@ class ProductManager{
         }
 
 
-        let parametros = {title, description, price, thumbnail, code, stock}
+        let parametros = {title, description, price, thumbnail, code, stock, category}
         if (Object.values(parametros).some(value => value === undefined || value == ""  || value == " ")) {
             console.log('Usted no ha completado todos los campos');
             return;
@@ -40,7 +52,7 @@ class ProductManager{
         } 
 
 
-        let newProduct={id, title, description, price, thumbnail, code, stock}
+        let newProduct={id, title, description, price, thumbnail, code, stock, category, status: true}
         this.products.push(newProduct)
 
         fs.writeFileSync(this.path, JSON.stringify(this.products, null, "\t"))
@@ -69,7 +81,7 @@ class ProductManager{
 
 
 
-    updateProduct(id, campoParaActualizar, nuevaInfo){
+    updateProduct(id, newProductInfo){
         let traerArreglo = JSON.parse(fs.readFileSync(this.path,{encoding:"utf-8"}))
 
         let productFindIndex = traerArreglo.findIndex(productFind => productFind.id === id)
@@ -80,9 +92,14 @@ class ProductManager{
         }
 
         let productToUpdate = traerArreglo[productFindIndex]
-        productToUpdate[campoParaActualizar] = nuevaInfo
+
+        for(let key in newProductInfo){
+            productToUpdate[key]= newProductInfo[key]
+        }
 
         traerArreglo[productFindIndex] = productToUpdate
+
+        this.products = traerArreglo;
 
         fs.writeFileSync(this.path, JSON.stringify(traerArreglo, null, "\t"))
         console.log(`Producto con ID ${id} actualizado correctamente`);
@@ -91,20 +108,19 @@ class ProductManager{
 
 
     deleteProduct(id){
-        //let traerArreglo = JSON.parse(fs.readFileSync(this.path,{encoding:"utf-8"}))
         let traerArreglo = this.getProducts()
 
         let productFindIndex = traerArreglo.findIndex(productFind => productFind.id === id)
 
         if (productFindIndex === -1) {
             console.log(`Not found. No existen productos con el numero de id ${id}.`);
-            return;
+            throw new Error(`No existen el producto con numero de ID ${id}`)
         }
 
         traerArreglo.splice(productFindIndex, 1)
 
         // Reajustar los IDs después de eliminar el producto
-        this.products.forEach((product, index) => {
+        traerArreglo.forEach((product, index) => {
             product.id = index + 1;
         });
         
@@ -117,39 +133,4 @@ class ProductManager{
 
 module.exports=ProductManager
 
-
-// const funcion1 = ()=>{
-//     let um = new ProductManager()
-    
-//     um.addProduct("Fideo", "Paquete de fideos 300gr Maroleo", "$1200", "htpps://fideosmaroleo.com", 1566324851, 35)
-    
-//     um.addProduct("Arroz", "Paquete de arroz 250gr luchetti", "$3000", "htpps://arrozluchetti250.com", 15674600589, 20)
-    
-//     um.addProduct("Galletitas", "Paquete de galletitas 75gr oreo", "$1200", "htpps://oreopaquete.com", 52100541892, 22)
-    
-//     um.addProduct("Leche", "caja de leche 2l", "$1000", "htpps://cajaleche.com", 42532824227427, 12)
-    
-//     console.log(um.getProducts());
-// }
-
-// funcion1()
-
-// let um = new ProductManager()
-// um.deleteProduct(3)
-
-// let um = new ProductManager()
-
-// um.addProduct("Fideo", "Paquete de fideos 300gr Maroleo", "$1200", "htpps://fideosmaroleo.com", 1566324851, 35)
-
-// um.addProduct("Arroz", "Paquete de arroz 250gr luchetti", "$3000", "htpps://arrozluchetti250.com", 15674600589, 20)
-
-// um.addProduct("Galletitas", "Paquete de galletitas 75gr oreo", "$1200", "htpps://oreopaquete.com", 52100541892, 22)
-
-// um.addProduct("Leche", "caja de leche 2l", "$1000", "htpps://cajaleche.com", 42532824227427, 12)
-
-// console.log(um.getProductById(3));
-
-// console.log(um.getProducts());
-
-// um.updateProduct(2, "price", "$1250" )
 
