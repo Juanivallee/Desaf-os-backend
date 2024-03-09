@@ -2,9 +2,10 @@ const Router = require("express").Router
 
 const router = Router()
 
-const ProductManager=require('../ProductManager')
+const ProductManager=require('../clases/ProductManager')
 
 const um=new ProductManager()
+
 
 router.get("/", (req, res)=>{
     let productos = um.getProducts()
@@ -40,10 +41,12 @@ router.post("/", (req, res)=>{
 
 
     if (!title || !description || !price || !thumbnail || !code || !stock || !category) {
-        return res.status(400).json({ error: "Faltan campos obligatorios" });
+        return res.status(400).json({ error: "Faltan completar campos obligatorios" });
     }
 
-        um.addProduct(title, description, price, thumbnail, code, stock, category);
+        let nuevoProducto = um.addProduct(title, description, price, thumbnail, code, stock, category);
+
+        req.io.emit("nuevoProducto", nuevoProducto)
 
         res.status(201).json({ mensaje: "Producto agregado correctamente" });
 })
@@ -76,8 +79,8 @@ router.delete("/:pid", (req, res) => {
     const productId = parseInt(req.params.pid)
 
     try {
-        um.deleteProduct(productId);
-
+        let productoEliminado = um.deleteProduct(productId);
+        req.io.emit("productoEliminado", productId)
         res.status(200).json({ message: `Producto con ID ${productId} eliminado correctamente` });
     } catch (error) {
         res.status(404).json({ error: error.message });

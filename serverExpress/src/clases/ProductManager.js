@@ -54,8 +54,8 @@ class ProductManager{
 
         let newProduct={id, title, description, price, thumbnail, code, stock, category, status: true}
         this.products.push(newProduct)
-
         fs.writeFileSync(this.path, JSON.stringify(this.products, null, "\t"))
+        return newProduct
     }
 
 

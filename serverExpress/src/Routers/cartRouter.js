@@ -6,7 +6,7 @@ const Router = require("express").Router
 
 const router = Router()
 
-const CartManager=require('../CartManager')
+const CartManager=require('../clases/CartManager')
 
 const um=new CartManager()
 

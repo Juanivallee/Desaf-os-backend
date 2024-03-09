@@ -1,17 +1,6 @@
 [
 	{
 		"id": 1,
-		"title": "Fideo",
-		"description": "Paquete de fideos 300gr Maroleo",
-		"price": 1200,
-		"thumbnail": "htpps://fideosmaroleo.com",
-		"code": "15f6g632hh48m51",
-		"stock": 35,
-		"category": "Alimentos",
-		"status": true
-	},
-	{
-		"id": 2,
 		"title": "Galletitas Oreo",
 		"description": "Paquete de galletitas 75gr oreo",
 		"price": 1300,
@@ -22,13 +11,24 @@
 		"status": true
 	},
 	{
+		"id": 2,
+		"title": "Fideo",
+		"description": "Paquete de fideos 300gr Maroleo",
+		"price": 1200,
+		"thumbnail": "htpps://fideosmaroleo.com",
+		"code": "15f6g632hh48m51",
+		"stock": 35,
+		"category": "Alimentos",
+		"status": true
+	},
+	{
 		"id": 3,
-		"title": "Arroz",
-		"description": "Paquete de arroz 250gr luchetti",
-		"price": 3000,
-		"thumbnail": "htpps://arrozluchetti250.com",
-		"code": "15h67j46a005fs89",
-		"stock": 20,
+		"title": "Manteca",
+		"description": "Manteca ilolay 200gr",
+		"price": 800,
+		"thumbnail": "htpps://manteca200gr/ilolay.com",
+		"code": "3256sfgh645sv1h6s",
+		"stock": 14,
 		"category": "Alimentos",
 		"status": true
 	},
@@ -40,6 +40,17 @@
 		"thumbnail": "htpps://cajaleche.com",
 		"code": "4f2532gf82j422l7427",
 		"stock": 12,
+		"category": "Alimentos",
+		"status": true
+	},
+	{
+		"id": 5,
+		"title": "Arroz",
+		"description": "Paquete de arroz 250gr luchetti",
+		"price": 3000,
+		"thumbnail": "htpps://arrozluchetti250.com",
+		"code": "15h67j46a005fs89",
+		"stock": 20,
 		"category": "Alimentos",
 		"status": true
 	}
